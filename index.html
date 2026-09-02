@@ -5,6 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ابن حميدو — منيو مطعم أسماك</title>
+    <meta name="theme-color" content="#0a3d62">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ابن حميدو">
+    <meta name="application-name" content="ابن حميدو">
+    <meta name="description" content="منيو مطعم ابن حميدو للأسماك والمأكولات البحرية">
+    <link rel="manifest" href='data:application/manifest+json,{"name":"ابن حميدو - منيو مطعم أسماك","short_name":"ابن حميدو","description":"منيو مطعم ابن حميدو للأسماك والمأكولات البحرية","start_url":".","scope":".","display":"standalone","orientation":"portrait","background_color":"%23f5f0e8","theme_color":"%230a3d62","icons":[{"src":"https://sys.shadowza.space/logos/1.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://sys.shadowza.space/logos/1.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
+    <link rel="apple-touch-icon" href="https://sys.shadowza.space/logos/1.png">
+    <link rel="icon" type="image/png" href="https://sys.shadowza.space/logos/1.png">
+    <link rel="shortcut icon" type="image/png" href="https://sys.shadowza.space/logos/1.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1259,14 +1270,16 @@
 
     <script>
         (function() {
+            const LOGO_IMAGE = 'https://sys.shadowza.space/logos/1.png';
+
             const productsData = [
-                { id: 1, name: 'الست لاتنيا', desc: '3 كفته جمبري + 3 عود جمبري + رز صياديه + شوربه حمرا ساده + سطله + طحينه + عيش', price: 200, image: '', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
+                { id: 1, name: 'الست لاتنيا', desc: '3 كفته جمبري + 3 عود جمبري + رز صياديه + شوربه حمرا ساده + سطله + طحينه + عيش', price: 200, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 2, name: 'نورماندي تو', desc: 'ربع فيليه سمك كريسبي + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 190, image: 'https://i.ibb.co/v7VQ3SD/image.png', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي'] },
-                { id: 3, name: 'الشويش عطيه', desc: 'طاجن سي فود (فواكه البحر)+ شوربه حمرا ساده + ارز سي فود + سلطه + طحينه + عيش', price: 310, image: '', category: 'offers', badge: 'عرض خاص', cookingMethods: ['ابيض', 'احمر'] },
-                { id: 4, name: 'وجبه حميده', desc: 'مكرونه سي فود + شوربه سي فود + سلطه + طحينه + عيش', price: 270, image: '', category: 'offers', badge: 'عرض خاص', cookingMethods: ['صوص ابيض', 'صوص احمر'] },
-                { id: 5, name: 'وجبه الباز افندي', desc: 'ساندويتش فيليه + ساندوتش جمبري + ساندوتش سبيط  ( عيش بلدي ) + بطاطس مقليه + سلطه + طحينه', price: 210, image: '', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
+                { id: 3, name: 'الشويش عطيه', desc: 'طاجن سي فود (فواكه البحر)+ شوربه حمرا ساده + ارز سي فود + سلطه + طحينه + عيش', price: 310, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['ابيض', 'احمر'] },
+                { id: 4, name: 'وجبه حميده', desc: 'مكرونه سي فود + شوربه سي فود + سلطه + طحينه + عيش', price: 270, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['صوص ابيض', 'صوص احمر'] },
+                { id: 5, name: 'وجبه الباز افندي', desc: 'ساندويتش فيليه + ساندوتش جمبري + ساندوتش سبيط  ( عيش بلدي ) + بطاطس مقليه + سلطه + طحينه', price: 210, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 6, name: 'بطن الزير', desc: 'سمكة بلطي + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 150, image: 'https://i.ibb.co/zHPwr878/image.png', category: 'offers', badge: 'الاكثر طلبا', cookingMethods: ['مشوي مقفول', 'زيت ولمون', 'سنجاري', 'مقلي', 'مشوي مفتوح'] },
-                { id: 7, name: 'وجبه عزيزه', desc: 'جمبري + كالمياري + فليه + رز صياده + سلطه + طحينه + عيش', price: 250, image: '', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
+                { id: 7, name: 'وجبه عزيزه', desc: 'جمبري + كالمياري + فليه + رز صياده + سلطه + طحينه + عيش', price: 250, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 8, name: 'فتشني فتش', desc: 'سمكة بوري + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 175, image: 'https://i.ibb.co/zVzggB5x/Chat-GPT-Image-2-2026-01-35-40.png', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي مقفول', 'زيت ولمون', 'سنجاري', 'مقلي', 'مشوي مفتوح'] },
                 { id: 9, name: 'سلطة جرجير', desc: 'جرجير طازج مع طماطم شيري وبصل أحمر وجبن بارميزان وخل البلسمك', price: 60, image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=150&h=150&fit=crop', category: 'salads', cookingMethods: [] },
                 { id: 10, name: 'سلطة طحينة', desc: 'طحينة بالليمون والثوم مع بقدونس', price: 40, image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=150&h=150&fit=crop', category: 'salads', cookingMethods: [] },
@@ -1275,11 +1288,11 @@
                 { id: 13, name: 'جمبري مقلي', desc: 'جمبري كبير مقلي بخلطة سرية، يقدم مع صلصة الثوم والليمون', price: 280, image: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=150&h=150&fit=crop', category: 'seafood', cookingMethods: ['مقلي', 'مشوي', 'بالبخار'] },
                 { id: 14, name: 'كاليماري مقلي', desc: 'حلقات كاليماري طازجة مقلية حتى تصبح ذهبية، تقدم مع صلصة طماطم حارة', price: 190, image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=150&h=150&fit=crop', category: 'seafood', cookingMethods: ['مقلي', 'مشوي'] },
                 { id: 15, name: 'فطيرة جبنة', desc: 'فطيرة محشوة بالجبنة الموزاريلا والريكوتا', price: 65, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150&h=150&fit=crop', category: 'pastries', cookingMethods: ['في الفرن'] },
-                { id: 16, name: 'سمك دنيس مشوي', desc: 'سمك دنيس طازج مشوي على الفحم مع أعشاب وزيت زيتون', price: null, image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=150&h=150&fit=crop', category: 'fish', badge: 'بالوزن', cookingMethods: ['مشوي', 'مقلي', 'في الفرن'] },
-                { id: 17, name: 'سمك قاروص', desc: 'سمك قاروص طازج مشوي أو مقلي حسب الطلب', price: null, image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=150&h=150&fit=crop', category: 'fish', cookingMethods: ['مشوي', 'مقلي', 'في الفرن'] },
+                { id: 16, name: 'سمك دنيس مشوي', desc: 'سمك دنيس طازج مشوي على الفحم مع أعشاب وزيت زيتون', price: null, image: LOGO_IMAGE, category: 'fish', badge: 'بالوزن', cookingMethods: ['مشوي', 'مقلي', 'في الفرن'] },
+                { id: 17, name: 'سمك قاروص', desc: 'سمك قاروص طازج مشوي أو مقلي حسب الطلب', price: null, image: LOGO_IMAGE, category: 'fish', cookingMethods: ['مشوي', 'مقلي', 'في الفرن'] },
                 { id: 18, name: 'طبق ابن حميدو الخاص', desc: 'تشكيلة من المأكولات البحرية مع أرز الصيادية والصلصات', price: 350, image: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=150&h=150&fit=crop', category: 'special', cookingMethods: ['مشوي', 'مقلي'] },
-                { id: 19, name: 'استاكوزا مشوية', desc: 'استاكوزا طازجة مشوية بالزبدة والثوم', price: null, image: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=150&h=150&fit=crop', category: 'crustaceans', badge: 'بالوزن', cookingMethods: ['مشوي', 'مسلوق'] },
-                { id: 20, name: 'طاجن جمبري', desc: 'جمبري مطهو في الطاجن مع الطماطم والبصل والفلفل', price: 240, image: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=150&h=150&fit=crop', category: 'tagines', cookingMethods: ['في الفرن'] },
+                { id: 19, name: 'استاكوزا مشوية', desc: 'استاكوزا طازجة مشوية بالزبدة والثوم', price: null, image: LOGO_IMAGE, category: 'crustaceans', badge: 'بالوزن', cookingMethods: ['مشوي', 'مسلوق'] },
+                { id: 20, name: 'طاجن جمبري', desc: 'جمبري مطهو في الطاجن مع الطماطم والبصل والفلفل', price: 240, image: LOGO_IMAGE, category: 'tagines', cookingMethods: ['في الفرن'] },
                 { id: 21, name: 'ساندوتش سمك فيليه', desc: 'ساندوتش سمك فيليه مقلي مع سلطة وصوص تارتار', price: 90, image: 'https://images.unsplash.com/photo-1529694157872-4e0c0f3b238b?w=150&h=150&fit=crop', category: 'sandwiches', cookingMethods: ['مقلي', 'مشوي'] }
             ];
 
@@ -1748,6 +1761,29 @@
 
             renderCategories();
             updateCartUI();
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    try {
+                        const swCode = `
+                            self.addEventListener('install', (event) => {
+                                self.skipWaiting();
+                            });
+                            self.addEventListener('activate', (event) => {
+                                event.waitUntil(clients.claim());
+                            });
+                            self.addEventListener('fetch', (event) => {
+                                event.respondWith(
+                                    fetch(event.request).catch(() => caches.match(event.request))
+                                );
+                            });
+                        `;
+                        const blob = new Blob([swCode], { type: 'application/javascript' });
+                        const swUrl = URL.createObjectURL(blob);
+                        navigator.serviceWorker.register(swUrl).catch(() => {});
+                    } catch (e) {}
+                });
+            }
         })();
     </script>
 </body>
