@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html translate="no" class="notranslate" lang="ar-SA" dir="rtl">
 
 <head>
@@ -22,7 +22,8 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
     <style>
         :root {
             --primary: #0a3d62;
@@ -351,7 +352,7 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 18px;
             padding: 20px 0 40px
         }
@@ -420,7 +421,7 @@
             line-height: 1.7;
             margin: 4px 0 8px;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
             flex: 1
@@ -632,6 +633,123 @@
         }
 
         .checkout-btn:hover {
+            background: var(--primary-hover)
+        }
+
+        .product-detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 140;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            padding: 20px
+        }
+
+        .product-detail-overlay.open {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .product-detail-modal {
+            background: var(--bg-light);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            width: 90%;
+            max-width: 680px;
+            box-shadow: var(--shadow-lg);
+            direction: rtl;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto
+        }
+
+        .product-detail-close {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 2
+        }
+
+        .product-detail-close:hover {
+            background: #e0e0e0
+        }
+
+        .product-detail-image {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px
+        }
+
+        .product-detail-name {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 8px
+        }
+
+        .product-detail-price {
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 16px
+        }
+
+        .product-detail-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+            margin-bottom: 20px;
+            white-space: normal;
+            word-wrap: break-word
+        }
+
+        .product-detail-badge {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: var(--radius-full);
+            margin-bottom: 12px
+        }
+
+        .product-detail-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px
+        }
+
+        .product-detail-add-btn {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+            min-width: 180px
+        }
+
+        .product-detail-add-btn:hover {
             background: var(--primary-hover)
         }
 
@@ -886,6 +1004,22 @@
             .developed-by img {
                 height: 30px;
             }
+
+            .product-detail-modal {
+                padding: 20px;
+            }
+
+            .product-detail-name {
+                font-size: 1.2rem;
+            }
+
+            .product-detail-image {
+                max-height: 180px;
+            }
+
+            .product-detail-desc {
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width:768px) {
@@ -959,7 +1093,7 @@
 
             .product-card .product-desc {
                 font-size: 0.72rem;
-                -webkit-line-clamp: 1
+                -webkit-line-clamp: 3
             }
 
             .product-card .product-price {
@@ -1213,6 +1347,26 @@
         </div>
     </aside>
 
+    <div class="product-detail-overlay" id="productDetailOverlay">
+        <div class="product-detail-modal" id="productDetailModal">
+            <button class="product-detail-close" id="productDetailClose" aria-label="إغلاق التفاصيل">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <img id="productDetailImage" class="product-detail-image" src="" alt="">
+            <div id="productDetailBadge" class="product-detail-badge" style="display:none;"></div>
+            <h2 id="productDetailName" class="product-detail-name"></h2>
+            <div id="productDetailPrice" class="product-detail-price"></div>
+            <p id="productDetailDesc" class="product-detail-desc"></p>
+            <div class="product-detail-actions">
+                <button class="product-detail-add-btn" id="productDetailAddBtn">أضف إلى طلباتي</button>
+            </div>
+        </div>
+    </div>
+
     <div class="cooking-modal-overlay" id="cookingModalOverlay">
         <div class="cooking-modal">
             <div class="cooking-modal-title">اختر طريقة التسوية</div>
@@ -1273,11 +1427,11 @@
             const LOGO_IMAGE = 'https://sys.shadowza.space/logos/1.png';
 
             const productsData = [
-                { id: 1, name: 'الست لاتنيا', desc: '3 كفته جمبري + 3 عود جمبري + رز صياديه + شوربه حمرا ساده + سطله + طحينه + عيش', price: 200, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
+                { id: 1, name: 'الست لاتنيا', desc: '3 كفته جمبري + 3 عود جمبري + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 200, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 2, name: 'نورماندي تو', desc: 'ربع فيليه سمك كريسبي + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 190, image: 'https://i.ibb.co/v7VQ3SD/image.png', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي'] },
                 { id: 3, name: 'الشويش عطيه', desc: 'طاجن سي فود (فواكه البحر)+ شوربه حمرا ساده + ارز سي فود + سلطه + طحينه + عيش', price: 310, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['ابيض', 'احمر'] },
                 { id: 4, name: 'وجبه حميده', desc: 'مكرونه سي فود + شوربه سي فود + سلطه + طحينه + عيش', price: 270, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['صوص ابيض', 'صوص احمر'] },
-                { id: 5, name: 'وجبه الباز افندي', desc: 'ساندويتش فيليه + ساندوتش جمبري + ساندوتش سبيط  ( عيش بلدي ) + بطاطس مقليه + سلطه + طحينه', price: 210, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
+                { id: 5, name: 'وجبه الباز افندي', desc: 'ساندويتش فيليه + ساندوتش جمبري + ساندوتش سبيط ( عيش بلدي ) + بطاطس مقليه + سلطه + طحينه', price: 210, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 6, name: 'بطن الزير', desc: 'سمكة بلطي + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 150, image: 'https://i.ibb.co/zHPwr878/image.png', category: 'offers', badge: 'الاكثر طلبا', cookingMethods: ['مشوي مقفول', 'زيت ولمون', 'سنجاري', 'مقلي', 'مشوي مفتوح'] },
                 { id: 7, name: 'وجبه عزيزه', desc: 'جمبري + كالمياري + فليه + رز صياده + سلطه + طحينه + عيش', price: 250, image: LOGO_IMAGE, category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي', 'مقلي'] },
                 { id: 8, name: 'فتشني فتش', desc: 'سمكة بوري + رز صياديه + شوربه حمرا ساده + سلطه + طحينه + عيش', price: 175, image: 'https://i.ibb.co/zVzggB5x/Chat-GPT-Image-2-2026-01-35-40.png', category: 'offers', badge: 'عرض خاص', cookingMethods: ['مشوي مقفول', 'زيت ولمون', 'سنجاري', 'مقلي', 'مشوي مفتوح'] },
@@ -1351,7 +1505,15 @@
                 customerAddress: document.getElementById('customerAddress'),
                 areaSelect: document.getElementById('areaSelect'),
                 confirmBranchBtn: document.getElementById('confirmBranch'),
-                cancelBranchBtn: document.getElementById('cancelBranch')
+                cancelBranchBtn: document.getElementById('cancelBranch'),
+                productDetailOverlay: document.getElementById('productDetailOverlay'),
+                productDetailClose: document.getElementById('productDetailClose'),
+                productDetailImage: document.getElementById('productDetailImage'),
+                productDetailBadge: document.getElementById('productDetailBadge'),
+                productDetailName: document.getElementById('productDetailName'),
+                productDetailPrice: document.getElementById('productDetailPrice'),
+                productDetailDesc: document.getElementById('productDetailDesc'),
+                productDetailAddBtn: document.getElementById('productDetailAddBtn')
             };
 
             function formatPrice(price) {
@@ -1367,10 +1529,12 @@
                     tab.setAttribute('role', 'button');
                     tab.setAttribute('tabindex', '0');
                     tab.dataset.category = cat.key;
-                    tab.innerHTML = `<img src="${cat.img}" alt="${cat.name}" loading="lazy"><span>${cat.name}</span>`;
+                    tab.innerHTML = '<img src="' + cat.img + '" alt="' + cat.name + '" loading="lazy"><span>' + cat.name + '</span>';
                     elements.categoryNav.appendChild(tab);
-                    tab.addEventListener('click', () => {
-                        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    tab.addEventListener('click', function() {
+                        document.querySelectorAll('.category-tab').forEach(function(t) {
+                            t.classList.remove('active');
+                        });
                         tab.classList.add('active');
                         renderProducts(tab.dataset.category, elements.searchInput.value);
                     });
@@ -1382,18 +1546,22 @@
                 }
             }
 
-            function renderProducts(filterCategory = categories[0]?.key || 'offers', searchTerm = '') {
+            function renderProducts(filterCategory, searchTerm) {
+                if (!filterCategory) filterCategory = categories[0] ? categories[0].key : 'offers';
+                if (!searchTerm) searchTerm = '';
                 elements.productsGrid.innerHTML = '';
-                const filtered = productsData.filter(p => {
+                const filtered = productsData.filter(function(p) {
                     const matchCat = p.category === filterCategory;
-                    const matchSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.desc.toLowerCase().includes(searchTerm.toLowerCase());
+                    const matchSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.desc.toLowerCase()
+                        .includes(searchTerm.toLowerCase());
                     return matchCat && matchSearch;
                 });
                 if (filtered.length === 0) {
-                    elements.productsGrid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">لا توجد منتجات مطابقة</div>';
+                    elements.productsGrid.innerHTML =
+                        '<div style="text-align:center;padding:40px;color:var(--text-muted);">لا توجد منتجات مطابقة</div>';
                     return;
                 }
-                filtered.forEach(product => {
+                filtered.forEach(function(product) {
                     const priceDisplay = formatPrice(product.price);
                     const card = document.createElement('article');
                     card.className = 'product-card';
@@ -1401,33 +1569,61 @@
                     card.setAttribute('tabindex', '0');
                     card.setAttribute('aria-label', product.name);
                     card.dataset.id = product.id;
-                    card.innerHTML = `
-                        ${product.badge ? '<span class="product-badge">' + product.badge + '</span>' : ''}
-                        <div class="product-image-wrapper"><img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy"></div>
-                        <div class="product-body">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-desc">${product.desc}</p>
-                            <div class="product-footer">
-                                <span class="product-price">${priceDisplay}</span>
-                                <button class="add-btn" data-id="${product.id}">أضف إلى طلباتي</button>
-                            </div>
-                        </div>
-                    `;
+                    card.innerHTML =
+                        (product.badge ? '<span class="product-badge">' + product.badge + '</span>' : '') +
+                        '<div class="product-image-wrapper"><img class="product-image" src="' + product.image +
+                        '" alt="' + product.name + '" loading="lazy"></div>' +
+                        '<div class="product-body">' +
+                        '<h3 class="product-name">' + product.name + '</h3>' +
+                        '<p class="product-desc">' + product.desc + '</p>' +
+                        '<div class="product-footer">' +
+                        '<span class="product-price">' + priceDisplay + '</span>' +
+                        '<button class="add-btn" data-id="' + product.id + '">أضف إلى طلباتي</button>' +
+                        '</div>' +
+                        '</div>';
                     elements.productsGrid.appendChild(card);
                 });
-                document.querySelectorAll('.add-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.add-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
                         e.stopPropagation();
                         openCookingModal(parseInt(btn.dataset.id));
                     });
                 });
-                document.querySelectorAll('.product-card').forEach(card => {
-                    card.addEventListener('click', () => openCookingModal(parseInt(card.dataset.id)));
+                document.querySelectorAll('.product-card').forEach(function(card) {
+                    card.addEventListener('click', function() {
+                        openProductDetailModal(parseInt(card.dataset.id));
+                    });
                 });
             }
 
+            function openProductDetailModal(productId) {
+                const product = productsData.find(function(p) {
+                    return p.id === productId;
+                });
+                if (!product) return;
+                elements.productDetailImage.src = product.image;
+                elements.productDetailImage.alt = product.name;
+                elements.productDetailName.textContent = product.name;
+                elements.productDetailPrice.textContent = formatPrice(product.price);
+                elements.productDetailDesc.textContent = product.desc;
+                if (product.badge) {
+                    elements.productDetailBadge.style.display = 'inline-block';
+                    elements.productDetailBadge.textContent = product.badge;
+                } else {
+                    elements.productDetailBadge.style.display = 'none';
+                }
+                elements.productDetailAddBtn.dataset.productId = product.id;
+                elements.productDetailOverlay.classList.add('open');
+            }
+
+            function closeProductDetailModal() {
+                elements.productDetailOverlay.classList.remove('open');
+            }
+
             function openCookingModal(productId) {
-                const product = productsData.find(p => p.id === productId);
+                const product = productsData.find(function(p) {
+                    return p.id === productId;
+                });
                 if (!product) return;
                 pendingAddItem = product;
                 const methods = product.cookingMethods || [];
@@ -1438,7 +1634,7 @@
                     select.disabled = true;
                 } else {
                     select.disabled = false;
-                    methods.forEach(method => {
+                    methods.forEach(function(method) {
                         const option = document.createElement('option');
                         option.value = method;
                         option.textContent = method;
@@ -1462,17 +1658,24 @@
 
             function addToCartWithDetails(product, cookingMethod, comment, weight) {
                 const weightValue = weight ? parseFloat(weight) : null;
-                const existing = cart.find(item =>
-                    item.id === product.id &&
-                    item.cookingMethod === cookingMethod &&
-                    item.comment === comment &&
-                    (item.weight === weightValue || (!item.weight && !weightValue))
-                );
+                const existing = cart.find(function(item) {
+                    return item.id === product.id &&
+                        item.cookingMethod === cookingMethod &&
+                        item.comment === comment &&
+                        (item.weight === weightValue || (!item.weight && !weightValue));
+                });
                 if (existing) {
                     existing.qty += 1;
                 } else {
                     cart.push({
-                        ...product,
+                        id: product.id,
+                        name: product.name,
+                        desc: product.desc,
+                        price: product.price,
+                        image: product.image,
+                        category: product.category,
+                        badge: product.badge,
+                        cookingMethods: product.cookingMethods,
                         qty: 1,
                         cookingMethod: cookingMethod || 'لا يوجد',
                         comment: comment || '',
@@ -1491,22 +1694,22 @@
             }
 
             function removeFromCart(id, cookingMethod, comment, weight) {
-                cart = cart.filter(item =>
-                    !(item.id === id &&
-                      item.cookingMethod === cookingMethod &&
-                      item.comment === comment &&
-                      (item.weight === weight || (!item.weight && !weight)))
-                );
+                cart = cart.filter(function(item) {
+                    return !(item.id === id &&
+                        item.cookingMethod === cookingMethod &&
+                        item.comment === comment &&
+                        (item.weight === weight || (!item.weight && !weight)));
+                });
                 updateCartUI();
             }
 
             function changeQty(id, cookingMethod, comment, weight, delta) {
-                const item = cart.find(i =>
-                    i.id === id &&
-                    i.cookingMethod === cookingMethod &&
-                    i.comment === comment &&
-                    (i.weight === weight || (!i.weight && !weight))
-                );
+                const item = cart.find(function(i) {
+                    return i.id === id &&
+                        i.cookingMethod === cookingMethod &&
+                        i.comment === comment &&
+                        (i.weight === weight || (!i.weight && !weight));
+                });
                 if (!item) return;
                 item.qty += delta;
                 if (item.qty <= 0) {
@@ -1517,52 +1720,65 @@
             }
 
             function updateCartUI() {
-                const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-                const totalPrice = cart.reduce((sum, item) => {
+                const totalItems = cart.reduce(function(sum, item) {
+                    return sum + item.qty;
+                }, 0);
+                const totalPrice = cart.reduce(function(sum, item) {
                     if (item.price !== null && item.price !== undefined) {
                         return sum + item.qty * item.price;
                     }
                     return sum;
                 }, 0);
-                const hasWeightItems = cart.some(item => item.price === null);
+                const hasWeightItems = cart.some(function(item) {
+                    return item.price === null;
+                });
                 elements.cartCountEl.textContent = totalItems;
-                elements.cartTotalDisplay.textContent = hasWeightItems ? 'ج.م ' + totalPrice + ' + بالوزن' : formatPrice(totalPrice);
-                elements.cartTotalValue.textContent = hasWeightItems ? 'ج.م ' + totalPrice + ' + بالوزن' : formatPrice(totalPrice);
+                const totalDisplayText = hasWeightItems ? 'ج.م ' + totalPrice + ' + بالوزن' : formatPrice(totalPrice);
+                elements.cartTotalDisplay.textContent = totalDisplayText;
+                elements.cartTotalValue.textContent = totalDisplayText;
                 renderCartItems();
             }
 
             function renderCartItems() {
                 elements.cartItemsContainer.innerHTML = '';
                 if (cart.length === 0) {
-                    elements.cartItemsContainer.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);">السلة فارغة</div>';
+                    elements.cartItemsContainer.innerHTML =
+                        '<div style="text-align:center;padding:40px;color:var(--text-muted);">السلة فارغة</div>';
                     return;
                 }
-                cart.forEach(item => {
-                    const priceDisplay = item.price !== null && item.price !== undefined ? formatPrice(item.price) : 'بالوزن';
-                    const totalDisplay = item.price !== null && item.price !== undefined ? formatPrice(item.qty * item.price) : 'بالوزن';
+                cart.forEach(function(item) {
+                    const priceDisplay = item.price !== null && item.price !== undefined ? formatPrice(item
+                        .price) : 'بالوزن';
+                    const totalDisplay = item.price !== null && item.price !== undefined ? formatPrice(item.qty *
+                        item.price) : 'بالوزن';
                     const methodDisplay = item.cookingMethod !== 'لا يوجد' ? ' - ' + item.cookingMethod : '';
                     const commentDisplay = item.comment ? ' - ' + item.comment : '';
                     const weightDisplay = item.weight ? ' - ' + item.weight + ' كجم' : '';
                     const div = document.createElement('div');
                     div.className = 'cart-item';
-                    div.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}">
-                        <div class="info">
-                            <div class="name">${item.name}${methodDisplay}${commentDisplay}${weightDisplay}</div>
-                            <div class="price">${priceDisplay}</div>
-                            <div class="qty-controls">
-                                <button class="qty-btn" data-action="minus" data-id="${item.id}" data-method="${item.cookingMethod}" data-comment="${item.comment}" data-weight="${item.weight || ''}">−</button>
-                                <span>${item.qty}</span>
-                                <button class="qty-btn" data-action="plus" data-id="${item.id}" data-method="${item.cookingMethod}" data-comment="${item.comment}" data-weight="${item.weight || ''}">+</button>
-                                <button class="remove-btn" data-id="${item.id}" data-method="${item.cookingMethod}" data-comment="${item.comment}" data-weight="${item.weight || ''}">إزالة</button>
-                            </div>
-                        </div>
-                        <div style="font-weight:700;color:var(--primary);white-space:nowrap;">${totalDisplay}</div>
-                    `;
+                    div.innerHTML =
+                        '<img src="' + item.image + '" alt="' + item.name + '">' +
+                        '<div class="info">' +
+                        '<div class="name">' + item.name + methodDisplay + commentDisplay + weightDisplay + '</div>' +
+                        '<div class="price">' + priceDisplay + '</div>' +
+                        '<div class="qty-controls">' +
+                        '<button class="qty-btn" data-action="minus" data-id="' + item.id + '" data-method="' + item
+                        .cookingMethod + '" data-comment="' + item.comment + '" data-weight="' + (item.weight || '') +
+                        '">−</button>' +
+                        '<span>' + item.qty + '</span>' +
+                        '<button class="qty-btn" data-action="plus" data-id="' + item.id + '" data-method="' + item
+                        .cookingMethod + '" data-comment="' + item.comment + '" data-weight="' + (item.weight || '') +
+                        '">+</button>' +
+                        '<button class="remove-btn" data-id="' + item.id + '" data-method="' + item.cookingMethod +
+                        '" data-comment="' + item.comment + '" data-weight="' + (item.weight || '') + '">إزالة</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div style="font-weight:700;color:var(--primary);white-space:nowrap;">' + totalDisplay +
+                        '</div>';
                     elements.cartItemsContainer.appendChild(div);
                 });
-                document.querySelectorAll('.qty-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.qty-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const weight = btn.dataset.weight ? parseFloat(btn.dataset.weight) : null;
                         changeQty(
@@ -1574,8 +1790,8 @@
                         );
                     });
                 });
-                document.querySelectorAll('.remove-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.remove-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const weight = btn.dataset.weight ? parseFloat(btn.dataset.weight) : null;
                         removeFromCart(
@@ -1602,7 +1818,7 @@
 
             function populateAreaSelect() {
                 elements.areaSelect.innerHTML = '<option value="">اختر المنطقة</option>';
-                deliveryAreas.forEach(area => {
+                deliveryAreas.forEach(function(area) {
                     const option = document.createElement('option');
                     option.value = area;
                     option.textContent = area;
@@ -1612,7 +1828,9 @@
 
             function openBranchModal() {
                 selectedBranch = null;
-                document.querySelectorAll('.branch-selection-btn').forEach(btn => btn.classList.remove('selected'));
+                document.querySelectorAll('.branch-selection-btn').forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
                 elements.customerName.value = '';
                 elements.customerPhone.value = '';
                 elements.customerAddress.value = '';
@@ -1626,25 +1844,31 @@
 
             function buildWhatsAppMessage(branch, name, phone, address, area) {
                 let message = 'مرحباً، أود تقديم طلب جديد:\n';
-                message += `الفرع: ${branch}\n`;
-                message += `الاسم: ${name}\n`;
-                message += `الهاتف: ${phone}\n`;
-                message += `العنوان: ${address}\n`;
-                message += `المنطقة: ${area}\n\n`;
+                message += 'الفرع: ' + branch + '\n';
+                message += 'الاسم: ' + name + '\n';
+                message += 'الهاتف: ' + phone + '\n';
+                message += 'العنوان: ' + address + '\n';
+                message += 'المنطقة: ' + area + '\n\n';
                 message += 'تفاصيل الطلب:\n';
-                cart.forEach((item, index) => {
-                    const itemTotal = item.price !== null && item.price !== undefined ? (item.qty * item.price) : 'بالوزن';
-                    const method = item.cookingMethod !== 'لا يوجد' ? ` - ${item.cookingMethod}` : '';
-                    const comment = item.comment ? ` - ملاحظة: ${item.comment}` : '';
-                    const weight = item.weight ? ` - ${item.weight} كجم` : '';
-                    message += `${index + 1}. ${item.name} (x${item.qty})${method}${comment}${weight} - ${itemTotal}\n`;
+                cart.forEach(function(item, index) {
+                    const itemTotal = item.price !== null && item.price !== undefined ? (item.qty * item
+                        .price) : 'بالوزن';
+                    const method = item.cookingMethod !== 'لا يوجد' ? ' - ' + item.cookingMethod : '';
+                    const comment = item.comment ? ' - ملاحظة: ' + item.comment : '';
+                    const weight = item.weight ? ' - ' + item.weight + ' كجم' : '';
+                    message += (index + 1) + '. ' + item.name + ' (x' + item.qty + ')' + method + comment +
+                        weight + ' - ' + itemTotal + '\n';
                 });
-                const total = cart.reduce((sum, item) => (item.price !== null && item.price !== undefined ? sum + item.qty * item.price : sum), 0);
-                const hasWeightItems = cart.some(item => item.price === null);
+                const total = cart.reduce(function(sum, item) {
+                    return item.price !== null && item.price !== undefined ? sum + item.qty * item.price : sum;
+                }, 0);
+                const hasWeightItems = cart.some(function(item) {
+                    return item.price === null;
+                });
                 if (hasWeightItems) {
-                    message += `\nالإجمالي: ج.م ${total} + الأصناف بالوزن تحدد لاحقاً`;
+                    message += '\nالإجمالي: ج.م ' + total + ' + الأصناف بالوزن تحدد لاحقاً';
                 } else {
-                    message += `\nالإجمالي: ${formatPrice(total)}`;
+                    message += '\nالإجمالي: ' + formatPrice(total);
                 }
                 return message;
             }
@@ -1653,7 +1877,7 @@
                 const message = buildWhatsAppMessage(branch, name, phone, address, area);
                 const phoneNumber = '+201092746519';
                 const encodedMessage = encodeURIComponent(message);
-                window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+                window.open('https://wa.me/' + phoneNumber + '?text=' + encodedMessage, '_blank');
                 cart = [];
                 updateCartUI();
                 closeCart();
@@ -1671,7 +1895,7 @@
             elements.cartCloseBtn.addEventListener('click', closeCart);
             elements.cartOverlay.addEventListener('click', closeCart);
 
-            elements.checkoutBtn.addEventListener('click', () => {
+            elements.checkoutBtn.addEventListener('click', function() {
                 if (cart.length === 0) {
                     Swal.fire({
                         title: 'السلة فارغة',
@@ -1685,16 +1909,18 @@
                 closeCart();
             });
 
-            elements.branchSelection.addEventListener('click', (e) => {
+            elements.branchSelection.addEventListener('click', function(e) {
                 const btn = e.target.closest('.branch-selection-btn');
                 if (btn) {
-                    document.querySelectorAll('.branch-selection-btn').forEach(b => b.classList.remove('selected'));
+                    document.querySelectorAll('.branch-selection-btn').forEach(function(b) {
+                        b.classList.remove('selected');
+                    });
                     btn.classList.add('selected');
                     selectedBranch = btn.dataset.branch;
                 }
             });
 
-            elements.confirmBranchBtn.addEventListener('click', () => {
+            elements.confirmBranchBtn.addEventListener('click', function() {
                 if (!selectedBranch) {
                     Swal.fire({
                         title: 'الرجاء اختيار الفرع',
@@ -1720,20 +1946,23 @@
 
             elements.cancelBranchBtn.addEventListener('click', closeBranchModal);
 
-            document.addEventListener('keydown', (e) => {
+            document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     if (elements.cartSidebar.classList.contains('open')) closeCart();
                     if (elements.cookingModalOverlay.classList.contains('open')) closeCookingModal();
                     if (elements.branchModalOverlay.classList.contains('open')) closeBranchModal();
+                    if (elements.productDetailOverlay.classList.contains('open')) closeProductDetailModal();
                 }
             });
 
-            elements.searchInput.addEventListener('input', () => {
-                const activeCat = document.querySelector('.category-tab.active')?.dataset.category || categories[0]?.key || 'offers';
-                renderProducts(activeCat, elements.searchInput.value);
+            elements.searchInput.addEventListener('input', function() {
+                const activeCat = document.querySelector('.category-tab.active');
+                const activeCatKey = activeCat ? activeCat.dataset.category : (categories[0] ? categories[0]
+                    .key : 'offers');
+                renderProducts(activeCatKey, elements.searchInput.value);
             });
 
-            elements.confirmCookingBtn.addEventListener('click', () => {
+            elements.confirmCookingBtn.addEventListener('click', function() {
                 if (!pendingAddItem) return;
                 const selectedMethod = elements.cookingMethodSelect.value;
                 const comment = elements.cookingComment.value.trim();
@@ -1755,32 +1984,31 @@
             });
 
             elements.cancelCookingBtn.addEventListener('click', closeCookingModal);
-            elements.cookingModalOverlay.addEventListener('click', (e) => {
+            elements.cookingModalOverlay.addEventListener('click', function(e) {
                 if (e.target === elements.cookingModalOverlay) closeCookingModal();
+            });
+
+            elements.productDetailClose.addEventListener('click', closeProductDetailModal);
+            elements.productDetailOverlay.addEventListener('click', function(e) {
+                if (e.target === elements.productDetailOverlay) closeProductDetailModal();
+            });
+            elements.productDetailAddBtn.addEventListener('click', function() {
+                const productId = parseInt(elements.productDetailAddBtn.dataset.productId);
+                closeProductDetailModal();
+                openCookingModal(productId);
             });
 
             renderCategories();
             updateCartUI();
 
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
+                window.addEventListener('load', function() {
                     try {
-                        const swCode = `
-                            self.addEventListener('install', (event) => {
-                                self.skipWaiting();
-                            });
-                            self.addEventListener('activate', (event) => {
-                                event.waitUntil(clients.claim());
-                            });
-                            self.addEventListener('fetch', (event) => {
-                                event.respondWith(
-                                    fetch(event.request).catch(() => caches.match(event.request))
-                                );
-                            });
-                        `;
+                        const swCode =
+                            'self.addEventListener("install",function(e){self.skipWaiting()});self.addEventListener("activate",function(e){e.waitUntil(clients.claim())});self.addEventListener("fetch",function(e){e.respondWith(fetch(e.request).catch(function(){return caches.match(e.request)}))});';
                         const blob = new Blob([swCode], { type: 'application/javascript' });
                         const swUrl = URL.createObjectURL(blob);
-                        navigator.serviceWorker.register(swUrl).catch(() => {});
+                        navigator.serviceWorker.register(swUrl).catch(function() {});
                     } catch (e) {}
                 });
             }
